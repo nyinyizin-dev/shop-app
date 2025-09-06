@@ -18,11 +18,20 @@ export default function HomeScreen() {
           Body :{" "}
           <Text style={{ fontWeight: "300", fontSize: 14 }}> {post.body}</Text>
         </Text>
-       
-
       ))}
+
       <Text style={{ fontWeight: "bold" }}>
         This is Parent Text. <Text>This is Nested Text</Text>
+      </Text>
+
+      <Text
+        style={{ textAlign: "justify", fontSize: 14, paddingHorizontal: 10 }}
+        numberOfLines={3}
+        // ellipsizeMode="middle"
+        selectable={true}
+        allowFontScaling={false}
+      >
+        {POSTS.content}
       </Text>
     </SafeAreaView>
   );
@@ -40,3 +49,4 @@ const styles = StyleSheet.create({
     color: "teal",
   },
 });
+
