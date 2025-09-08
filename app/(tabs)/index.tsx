@@ -1,16 +1,15 @@
-import { StyleSheet, Text,  } from 'react-native'
+import { StyleSheet, Text, View,  } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function HomeScreen() {
   return (
     <SafeAreaView>
-      <Text style={styles.text}>Hello World</Text>
+      <View style={{backgroundColor: '#CA64E3', width: '50%', height: '50%'}} />
+      <View style={{backgroundColor: '#CA64ae', width: '100%', height: "50%"}} />
     </SafeAreaView>
   )
 }
-
-// RGB, RGBA
 
 const styles = StyleSheet.create({
   text: {
