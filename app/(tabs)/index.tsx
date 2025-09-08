@@ -9,6 +9,8 @@ import {
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import api from "@/api/axios";
+
 type User = {
   id: number;
   email: string;
@@ -23,20 +25,9 @@ export default function HomeScreen() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("https://reqres.in/api/users/2", {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        console.log("Data Fetching Fail");
-        return null;
-      }
-
-      const json = await response.json();
-      setUser(json.data);
+      const response = await api.get('/users/2');
+        // console.log(response.data)
+      setUser(response.data.data);
     } catch (error) {
       console.log(error);
     } finally {
