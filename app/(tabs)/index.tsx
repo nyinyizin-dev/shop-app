@@ -1,11 +1,11 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 
 import Cart from "@/components/shop/Cart";
 import Title from "@/components/shop/Title";
 import Category from "@/components/shop/Category";
-import { categories } from "@/data";
+import { categories } from "@/data/index";
 
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
@@ -32,13 +32,16 @@ export default function HomeScreen() {
       />
       <View style={{ paddingHorizontal: 15 }}>
         <Title title="Shop By Category" btnText="Sell All" />
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {categories.map((category) => (
-            <Category key={category.id} {...category} />
-          ))}
-        </ScrollView>
+        <FlatList
+        data={categories}
+        renderItem={({item}) => <Category {...item} />}
+        keyExtractor={item => item.id.toString()}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{paddingVertical: 10}}
+      />
 
-        {/* <Title title="Recomended for You" btnText="Sell All" /> */}
+        <Title title="Recomended for You" btnText="Sell All" />
       </View>
     </SafeAreaView>
   );
