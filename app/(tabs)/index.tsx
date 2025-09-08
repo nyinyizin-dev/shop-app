@@ -7,14 +7,22 @@ export default function HomeScreen() {
     <SafeAreaView
       style={{
         flex: 1,
-        // flexDirection: "column",
-        alignItems:'center',
-        justifyContent: 'between',
+        flexWrap: 'wrap',
+        flexDirection: "row",
+        gap:10
+        // alignItems:'center',
+        // justifyContent: 'between',
       }}
     >
       <View style={{ backgroundColor: "#CA64E3", width: 100, height: 100 }} />
       <View style={{ backgroundColor: "#CA64ae", width: 100, height: 100 }} />
+      {/* <View style={{alignSelf:'flex-end', backgroundColor: "#f3d31fed", width: 100, height: 100 }} /> */}
       <View style={{ backgroundColor: "#f3d31fed", width: 100, height: 100 }} />
+      <View style={{ backgroundColor: "#CA64E3", width: 100, height: 100 }} />
+      <View style={{ backgroundColor: "#CA64E3", width: 100, height: 100 }} />
+       <View style={{ backgroundColor: "#f3d31fed", width: 100, height: 100 }} />
+        <View style={{ backgroundColor: "#CA64ae", width: 100, height: 100 }} />
+           <View style={{ backgroundColor: "#CA64E3", width: 100, height: 100 }} />
     </SafeAreaView>
   );
 }
