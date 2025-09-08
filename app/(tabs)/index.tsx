@@ -7,39 +7,22 @@ export default function HomeScreen() {
     <SafeAreaView
       style={{
         flex: 1,
-        flexDirection: "row",
       }}
     >
+      <View style={{ width: 150, height: 150, backgroundColor: "#a39adeff" }} />
+      <View style={{ width: 150, height: 150, backgroundColor: "#cfe1d6ff" }} />
       <View
         style={{
-          // flex: 1,
-          flexGrow: 1,
-          // flexShrink: 1,  // default - 0
-          // flexBasis: 0, // default - auto
+          position: "absolute",
+          bottom: 100,
+          right: 20,
+          width: 75,
+          height: 75,
+          borderRadius: 75,
+          backgroundColor: "#dd884bff",
         }}
       >
-        <Image source={require("@/assets/images/mountain.jpg")} />
-      </View>
-      <View
-        style={{
-          // flex: 1,
-          flexGrow: 1,
-          // flexShrink: 1,
-          // flexBasis: 0,
-        }}
-      >
-        <Image source={require("@/assets/images/mountain.jpg")} />
       </View>
     </SafeAreaView>
   );
 }
-
-// const styles = StyleSheet.create({
-//   text: {
-//     marginTop: 50,
-//     color: "#f3d31fed",
-//     fontSize: 30,
-//     fontWeight: "bold",
-//     textAlign: "center",
-//   },
-// });
