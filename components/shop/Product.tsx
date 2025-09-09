@@ -8,9 +8,9 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
-interface ProductProps extends ProductType {
-    itemWidth: number;
-}
+// interface ProductProps extends ProductType {
+//     itemWidth: number;
+// }
 
 const Product = ({
   id,
@@ -22,10 +22,9 @@ const Product = ({
   discount,
   image,
   users,
-  itemWidth,
-}: ProductProps) => {
+}: ProductType) => {
   return (
-    <Pressable style={[styles.container, {width: itemWidth}]}>
+    <Pressable style={styles.container}>
       <Image
         source={image}
         style={styles.image}
@@ -34,18 +33,26 @@ const Product = ({
         transition={1000}
       />
       <Pressable style={styles.heartContainer}>
-        <IconSymbol name={users.length > 0 ? "heart.fill" : 'heart'} size={18} color="#E66F2D" />
+        <IconSymbol
+          name={users.length > 0 ? "heart.fill" : "heart"}
+          size={18}
+          color="#E66F2D"
+        />
       </Pressable>
       <View style={styles.rowContainer}>
         <Text style={styles.brand}>{brand}</Text>
-        <IconSymbol name="star" size={12} color={'orange'} />
+        <IconSymbol name="star" size={12} color={"orange"} />
         <Text style={styles.star}>{star}</Text>
-        <Text style={styles.quantity}>({quantity})</Text>     
+        <Text style={styles.quantity}>({quantity})</Text>
       </View>
-      <Text style={styles.title} numberOfLines={1}>{title}</Text>
-      <View style={styles.rowContainer }>
+      <Text style={styles.title} numberOfLines={1}>
+        {title}
+      </Text>
+      <View style={styles.rowContainer}>
         <Text style={styles.price}>${price.toFixed(2)}</Text>
-        <Text style={styles.discount}>${discount.toFixed(2)}</Text>
+        {discount > 0 && (
+          <Text style={styles.discount}>${discount.toFixed(2)}</Text>
+        )}
       </View>
     </Pressable>
   );
@@ -54,7 +61,7 @@ const Product = ({
 export default Product;
 
 const styles = StyleSheet.create({
-  container: { marginHorizontal: 7 },
+  container: { marginHorizontal: 7 , marginVertical: 7},
   image: {
     width: "100%",
     aspectRatio: 3 / 4,
@@ -71,39 +78,38 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
   },
-  rowContainer:{
-    flexDirection: 'row',
+  rowContainer: {
+    flexDirection: "row",
     marginTop: 7,
-    alignItems: 'center',
+    alignItems: "center",
   },
   brand: {
     color: "#00000090",
-    fontWeight:'600',
+    fontWeight: "600",
     marginRight: 7,
   },
-  star:{
+  star: {
     fontSize: 12,
-    fontWeight: '300',
+    fontWeight: "300",
     marginHorizontal: 6,
   },
   quantity: {
     fontSize: 12,
-    color: 'gray',
+    color: "gray",
   },
-  title:{
+  title: {
     marginTop: 5,
     color: "#00000090",
-    fontWeight: '400',
+    fontWeight: "400",
   },
   price: {
-    color: '#007618',
+    color: "#007618",
     fontSize: 15,
-    fontWeight: '500',
+    fontWeight: "500",
     marginRight: 7,
   },
   discount: {
-    color: 'gray',
-    textDecorationLine: 'line-through',
-
-  }
+    color: "gray",
+    textDecorationLine: "line-through",
+  },
 });
