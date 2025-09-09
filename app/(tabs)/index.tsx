@@ -1,35 +1,126 @@
-import React, { useState } from "react";
-import { Button, Text, TextInput } from "react-native";
-import { useMMKVStorage } from "react-native-mmkv-storage";
-
-import { MMKV, MMKVENC } from "@/mmkv/store";
+import { FlashList } from "@shopify/flash-list";
+import { Image } from "expo-image";
+import { useCallback, useState } from "react";
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  Dimensions,
+  Pressable,
+  Text,
+  ScrollView,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function HomeScreen() {
-  const [name, setName] = useState("");
-  const [user, setUser] = useMMKVStorage("user", MMKV, "unknown");
-  // const [policy, setPolicy] = useMMKVStorage("policy", SETTING, "");
-  const [token, setToken] = useMMKVStorage("token", MMKVENC, "");
+import Cart from "@/components/shop/Cart";
+import Category from "@/components/shop/Category";
+import Title from "@/components/shop/Title";
+import { categories, products } from "@/data/index";
+import Product from "@/components/shop/Product";
 
-  const setString = async () => {
-    await MMKV.setStringAsync("user", name);
-  };
+const blurhash =
+  "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
+
+export default function HomeScreen() {
+  const [select, setSelect] = useState(1);
+  const width = Dimensions.get("screen").width;
+  const numColumns = width < 600 ? 2 : width < 768 ? 3 : 4;
+
+  const handleSelect = useCallback((id: number) => {
+    setSelect(id);
+  }, []);
 
   return (
-    <SafeAreaView>
-      <Text style={{ fontSize: 24 }}>Home Screen</Text>
-      <Text style={{ fontSize: 24 }}>Hello - {name}</Text>
-      <TextInput
-        placeholder="Enter your nmae"
-        onChangeText={(val) => setName(val)}
-        defaultValue={name}
-        style={{ height: 30, borderColor: "gray", borderWidth: 1 }}
-      />
-      <Button title="Save to MMKV" onPress={() => setUser(name)} />
-      <Text style={{ fontSize: 24 }}>{user}</Text>
-      <Button title="Save to setString MMKV" onPress={setString} />
-      <Text style={{ fontSize: 24 }}>Token : {token}</Text>
-      <Button title="Save to MMKVENC" onPress={()=>setToken('asdf1234')} />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Image
+          source={require("@/assets/images/n.png")}
+          style={styles.logo}
+          placeholder={blurhash}
+          contentFit="cover"
+          transition={1000}
+        />
+        <Cart />
+      </View>
+      <ScrollView>
+        <Image
+          source={require("@/data/shop/banner6.png")}
+          style={styles.banner}
+          placeholder={blurhash}
+          contentFit="cover"
+          transition={1000}
+        />
+        <View style={{ paddingHorizontal: 15 }}>
+          <Title title="Shop By Category" btnText="Sell All" />
+          <FlashList
+            data={categories}
+            extraData={select}
+            renderItem={({ item }) => (
+              <Category {...item} select={select} onSelect={handleSelect} />
+            )}
+            keyExtractor={(item) => item.id.toString()}
+            estimatedItemSize={90}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingVertical: 10 }}
+          />
+
+          <Title title="Recomended for You" btnText="Sell All" />
+        </View>
+
+        <FlashList
+          data={products}
+          numColumns={numColumns}
+          renderItem={({ item }) => <Product {...item} />}
+          keyExtractor={(item) => item.id.toString()}
+          estimatedItemSize={300}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: 15, paddingBottom: 15 }}
+          // columnWrapperStyle={{paddingHorizontal: 15, paddingBottom: 15}} // not have in FlashList
+          ListFooterComponent={() => (
+            <View style={{ height: 150 }}>
+              <Pressable style={styles.button}>
+                <Text style={styles.btnText}>Explore more</Text>
+              </Pressable>
+            </View>
+          )}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    minHeight: "100%",
+    backgroundColor: "white",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 15,
+    marginVertical: 5,
+  },
+  logo: {
+    width: 50,
+    height: 25,
+  },
+  banner: {
+    width: "100%",
+    aspectRatio: 20 / 9,
+  },
+  button: {
+    marginTop: 10,
+    marginHorizontal: "auto",
+    alignItems: "center",
+    backgroundColor: "#007618",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  btnText: {
+    color: "white",
+    fontWeight: "500",
+  },
+});
