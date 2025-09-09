@@ -1,7 +1,15 @@
 import { FlashList } from "@shopify/flash-list";
 import { Image } from "expo-image";
 import { useCallback, useState } from "react";
-import { FlatList, StyleSheet, View, Dimensions, Pressable, Text } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  Dimensions,
+  Pressable,
+  Text,
+  ScrollView,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Cart from "@/components/shop/Cart";
@@ -35,52 +43,50 @@ export default function HomeScreen() {
         />
         <Cart />
       </View>
+      <ScrollView>
+        <Image
+          source={require("@/data/shop/banner6.png")}
+          style={styles.banner}
+          placeholder={blurhash}
+          contentFit="cover"
+          transition={1000}
+        />
+        <View style={{ paddingHorizontal: 15 }}>
+          <Title title="Shop By Category" btnText="Sell All" />
+          <FlashList
+            data={categories}
+            extraData={select}
+            renderItem={({ item }) => (
+              <Category {...item} select={select} onSelect={handleSelect} />
+            )}
+            keyExtractor={(item) => item.id.toString()}
+            estimatedItemSize={90}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingVertical: 10 }}
+          />
+          
+          <Title title="Recomended for You" btnText="Sell All" />
+        </View>
 
-      <FlashList
-        ListHeaderComponent={() => (
-          <>
-            <Image
-              source={require("@/data/shop/banner6.png")}
-              style={styles.banner}
-              placeholder={blurhash}
-              contentFit="cover"
-              transition={1000}
-            />
-            <View style={{ paddingHorizontal: 15 }}>
-              <Title title="Shop By Category" btnText="Sell All" />
-              <FlashList
-                data={categories}
-                extraData={select}
-                renderItem={({ item }) => (
-                  <Category {...item} select={select} onSelect={handleSelect} />
-                )}
-                keyExtractor={(item) => item.id.toString()}
-                estimatedItemSize={90}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingVertical: 10 }}
-              />
-
-              <Title title="Recomended for You" btnText="Sell All" />
+        <FlashList
+          data={products}
+          numColumns={numColumns}
+          renderItem={({ item }) => <Product {...item} itemWidth={itemWidth} />}
+          keyExtractor={(item) => item.id.toString()}
+          estimatedItemSize={300}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: 15, paddingBottom: 15 }}
+          // columnWrapperStyle={{paddingHorizontal: 15, paddingBottom: 15}} // not have in FlashList
+          ListFooterComponent={() => (
+            <View style={{ height: 150 }}>
+              <Pressable style={styles.button}>
+                <Text style={styles.btnText}>Explore more</Text>
+              </Pressable>
             </View>
-          </>
-        )}
-        data={products}
-        numColumns={numColumns}
-        renderItem={({ item }) => <Product {...item} itemWidth={itemWidth} />}
-        keyExtractor={(item) => item.id.toString()}
-        estimatedItemSize={300}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 15, paddingBottom: 15}}
-        // columnWrapperStyle={{paddingHorizontal: 15, paddingBottom: 15}} // not have in FlashList
-        ListFooterComponent={()=> (
-          <View style={{height: 150}}>
-            <Pressable style={styles.button}>
-              <Text style={styles.btnText}>Explore more</Text>
-            </Pressable>
-          </View>
-        )}
-      />
+          )}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -105,17 +111,17 @@ const styles = StyleSheet.create({
     width: "100%",
     aspectRatio: 20 / 9,
   },
-  button:{
+  button: {
     marginTop: 10,
-    marginHorizontal:'auto',
-    alignItems: 'center',
-    backgroundColor: '#007618',
+    marginHorizontal: "auto",
+    alignItems: "center",
+    backgroundColor: "#007618",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
   },
-  btnText:{
-    color:'white',
-    fontWeight: '500'
+  btnText: {
+    color: "white",
+    fontWeight: "500",
   },
 });
