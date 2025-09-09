@@ -1,10 +1,9 @@
 import { Image } from "expo-image";
 import { Pressable, StyleSheet, Text } from "react-native";
 
-type CategoryProps = {
-  id: number;
-  name: string;
-  image: any;
+import { CategoryType } from "@/types";
+
+interface CategoryProps extends CategoryType  {
   select: number;
   onSelect: (id: number) => void;
 };
